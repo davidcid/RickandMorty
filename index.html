@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Rick & Morty</title>
+</head>
+<body>
+  
+</body>
+
+<script>
+  const rickAndMortyApi = 'https://rickandmortyapi.com/api/character/';
+  const characters = [];
+
+  fetch(rickAndMortyApi)
+    .then(res => res.json())
+    .then(data => characters.push(...data.results));
+
+  function findMatches(wordToMatch, characters) {
+    return characters.filter(character => {
+      // here we need to figure out if the character matches what was searched
+      const regex = new RegExp(wordToMatch, 'gi');
+      return character.name.match(regex);
+    })
+  }
+
+  function displayMatches() {
+    
+  }
+</script>
+</html>
