@@ -3,9 +3,12 @@ const characters = [];
 let status = document.querySelector('input[type=radio]:checked').value;
 let wordToMatch = '';
 
-fetch(rickAndMortyApi)
+for (var i = 0; i < 26; i++) {
+  fetch(rickAndMortyApi + "?page=" + i)
   .then(res => res.json())
-  .then(data => characters.push(...data.results));
+  .then(data => characters.push(...data.results))
+  .catch(err => console.log("Personaje no encontrado"))
+};
 
 function findMatches(wordToMatch, status, characters) {
   return characters.filter(character => {
@@ -49,3 +52,5 @@ const statusButtons = document.querySelectorAll('input[type=radio]');
 searchInput.addEventListener('change', updateWordToMatch);
 searchInput.addEventListener('keyup', updateWordToMatch);
 statusButtons.forEach(button => button.addEventListener('click', updateStatus));
+
+displayMatches();
