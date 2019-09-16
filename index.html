@@ -8,27 +8,32 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <form class="search-form">
-    <input type="text" class="search" placeholder="Nombre de personaje">
-  </form>
+  <section id="main">
+    <form class="search-form">
+      <input type="text" class="search" placeholder="Nombre de personaje">
 
-  <form class="radio-buttons">
-    
-    <input type="radio" name="status" id="alive" value="alive" checked>
-    <label for="alive">alive</label>
-
-    <input type="radio" name="status" id="dead" value="dead">
-    <label for="dead">dead</label>
-
-    <input type="radio" name="status" id="unknown" value="unknown">
-    <label for="unknown">unknown</label>
-
-    <!-- <input type="radio" name="status" id="all" value="all" checked>
-    <label for="all">all</label> -->
-  </form>
-
-  <ul class="characters">
-  </ul>
+      <div class="radio-buttons">
+        
+        <label for="alive">
+          <input type="radio" name="status" id="alive" value="alive" checked>
+        alive
+        </label>
+        <label for="dead">
+          <input type="radio" name="status" id="dead" value="dead">
+      dead
+        </label>
+        <label for="unknown">
+          <input type="radio" name="status" id="unknown" value="unknown">
+        unknown
+        </label>
+        <!-- <input type="radio" name="status" id="all" value="all" checked>
+        <label for="all">all</label> -->
+        </div>
+    </form>
+  
+    <ul class="characters">
+    </ul>
+  </section>  
   
   
 </body>
