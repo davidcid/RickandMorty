@@ -4,8 +4,8 @@ const searchInput =       document.querySelector('.search');
 const result =            document.querySelector('.characters');
 const statusButtons =     document.querySelectorAll('input[type=radio]');
 let status =              document.querySelector('input[type=radio]:checked').value;
-const characterExpanded = document.querySelector('.character-expanded');
-let wordToMatch = 'morty';
+let wordToMatch = '';
+let id = null;
 
 async function getData() {
   try {
@@ -13,7 +13,7 @@ async function getData() {
     let data = await response.json();
     let characters = data.results;
     const totalPages = data.info.pages;
-    if(totalPages > 1) {
+    if(totalPages > 1 && wordToMatch.length >= 3) {
       for(let page = 2; page <= totalPages; page++) {
         fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
           .then(res => res.json())
@@ -64,35 +64,42 @@ function updateWordToMatch() {
 
 function showDetails() {
   id = this.querySelector('.id').innerHTML;
-  expanded = document.querySelector(".expanded") || '';
-  if(expanded !== '') {
-    expanded.classList.remove("expanded");
-  }
-  this.classList.add("expanded");
+  const characterExpanded = document.querySelector('.character-expanded');
+  characterExpanded.addEventListener('click', toggleExpand);
+  characterExpanded.classList.toggle("expanded");
   data = getCharacterData();
+}
+
+function toggleExpand() {
+  this.classList.toggle("expanded");
 }
 
 async function getCharacterData() {
   try {
-    let response = await fetch(`${rickAndMortyApi}${id}`);
-    let data = await response.json();
-    showCharacter(data);
+    const response = await fetch(`${rickAndMortyApi}${id}`);
+    const data = await response.json();
+    console.log(data);
+    const html = `
+      <h3>${data.name}</h3>
+      <ul>
+        <li>Gender: ${data.gender}</li>
+        <li>Specie: ${data.species}</li>
+        <li>Origin: ${data.origin.name}</li>
+        <li>Location: ${data.location.name}</li>
+        <li>Type: ${data.type}</li>
+        <li>Status: ${data.status}</li>
+      </ul>
+    `;
+    
+    const characterExpanded = document.querySelector('.character-expanded');
+    characterExpanded.style.backgroundImage = `url(${data.image})`;
+    characterExpanded.innerHTML = html;
+    
   }
   catch(error) {
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
   }    
 }
-
-function showCharacter(character) {
-  let html = `
-    <div class="card-expanded">
-      <h3>${character.name}</h3>
-    </div>
-  `
-  characterExpanded.innerHTML = html;
-  console.log(character.name);
-}
-
 
 
 getData();
