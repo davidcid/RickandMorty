@@ -1,44 +1,11 @@
 const rickAndMortyApi = 'https://rickandmortyapi.com/api/character/';
 
-const searchInput =   document.querySelector('.search');
-const result =        document.querySelector('.characters');
-const statusButtons = document.querySelectorAll('input[type=radio]');
-
-
-let status =          document.querySelector('input[type=radio]:checked').value;
-let wordToMatch = 'morty';
-
-
-// function getData(wordToMatch, status) {
-//   fetch(`${rickAndMortyApi}?page=1&name=${wordToMatch}&status=${status}`)
-//   .then(res => res.json())
-//   .then(data => {
-//     let characters = data.results;
-//     const totalPages = data.info.pages;
-
-//     if(totalPages > 1) {
-//       for(let page = 2; page <= totalPages; page++) {
-//         fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
-//           .then(res => res.json())
-//           .then(data => {
-//             // characters = characters.concat(data.results);
-//             characters.push(...data.results);
-//             if(page === totalPages) {
-//               displayMatches(characters);
-//             }
-//           })
-//           .catch(err => {
-//             result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
-//           })
-//       }
-//     } else {
-//       displayMatches(characters);
-//     }
-//   })
-//   .catch(err => {
-//     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
-//   })
-// }
+const searchInput =       document.querySelector('.search');
+const result =            document.querySelector('.characters');
+const statusButtons =     document.querySelectorAll('input[type=radio]');
+let status =              document.querySelector('input[type=radio]:checked').value;
+let wordToMatch = '';
+let id = null;
 
 async function getData() {
   try {
@@ -46,7 +13,7 @@ async function getData() {
     let data = await response.json();
     let characters = data.results;
     const totalPages = data.info.pages;
-    if(totalPages > 1) {
+    if(totalPages > 1 && wordToMatch.length >= 3) {
       for(let page = 2; page <= totalPages; page++) {
         fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
           .then(res => res.json())
@@ -80,7 +47,7 @@ function displayMatches(characters = []) {
       `;
     }).join('');
   result.innerHTML = html;
-  const cards =         document.querySelectorAll('.card');
+  const cards = document.querySelectorAll('.card');
   cards.forEach(card => card.addEventListener('click', showDetails));
 }
 
@@ -92,25 +59,48 @@ function updateStatus() {
 
 function updateWordToMatch() {
   wordToMatch = this.value;
-  setTimeout(getData, 5000);
+  setTimeout(getData, 800);
 }
 
 function showDetails() {
   id = this.querySelector('.id').innerHTML;
-  console.log(id);
-  getCharacterData();
+  const characterExpanded = document.querySelector('.character-expanded');
+  characterExpanded.addEventListener('click', toggleExpand);
+  characterExpanded.classList.toggle("expanded");
+  data = getCharacterData();
+}
+
+function toggleExpand() {
+  this.classList.toggle("expanded");
 }
 
 async function getCharacterData() {
   try {
-    let response = await fetch(`${rickAndMortyApi}${id}`);
-    let data = await response.json();
+    const response = await fetch(`${rickAndMortyApi}${id}`);
+    const data = await response.json();
     console.log(data);
+    const html = `
+      <h3>${data.name}</h3>
+      <ul>
+        <li>Gender: ${data.gender}</li>
+        <li>Specie: ${data.species}</li>
+        <li>Origin: ${data.origin.name}</li>
+        <li>Location: ${data.location.name}</li>
+        <li>Type: ${data.type}</li>
+        <li>Status: ${data.status}</li>
+      </ul>
+    `;
+    
+    const characterExpanded = document.querySelector('.character-expanded');
+    characterExpanded.style.backgroundImage = `url(${data.image})`;
+    characterExpanded.innerHTML = html;
+    
   }
   catch(error) {
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
   }    
 }
+
 
 getData();
 
