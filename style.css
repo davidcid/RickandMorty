@@ -21,7 +21,7 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
-  margin: 60px auto;
+  margin: 30px auto;
   font-size: 16px;
 }
 
@@ -30,7 +30,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-right: 60px;
+  padding: 30px;
 }
 
 .logo img {
@@ -65,7 +65,9 @@ input.search {
   color: whitesmoke;
 }
 
-.characters {
+ul.characters {
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -88,7 +90,7 @@ input.search {
 }
 .name {
   display: flex;
-  height: 60px;
+  /* height: 60px; */
   margin: 0;
   padding: 0;
   justify-content: center;

@@ -14,23 +14,18 @@ async function getData() {
     let characters = [];
 
     for(let page = 1; page <= data.info.pages; page++) {
-      setTimeout(() => {
-        fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
-        .then(res => res.json())
-        .then(data => {
-          // characters = characters.concat(data.results);
-          characters.push(...data.results);
-          if(page === data.info.pages) {
-            displayMatches(characters);
-          }
-        })
-        .catch(err => {
-          result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
-        })
-      }, 1800)
+      fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
+      .then(res => res.json())
+      .then(data => {
+        characters.push(...data.results);
+        if(page === data.info.pages) {
+          displayMatches(characters);
+        }
+      })
+      .catch(err => {
+        result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
+      })
     }
-    
-
   } catch(error) {
     console.log(error);
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
@@ -61,7 +56,7 @@ function updateStatus() {
 
 function updateWordToMatch() {
   wordToMatch = this.value;
-  setTimeout(getData, 800);
+  getData();
 }
 
 function showDetails() {
@@ -85,9 +80,7 @@ async function getCharacterData() {
       const number = episode.replace("https://rickandmortyapi.com/api/episode/", "");
       episodes.push(number);
     });
-    // const episodesString = episodes.join(", ").toString();
-    // console.log(episodesString);
-       
+ 
     const html = `
       <div class="ch-info">
         <h3>${data.name}</h3>
@@ -112,12 +105,6 @@ async function getCharacterData() {
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
   }    
 }
-
-
-getData();
-
-
-
 
 searchInput.addEventListener('change', updateWordToMatch);
 searchInput.addEventListener('keyup', updateWordToMatch);
