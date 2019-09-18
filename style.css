@@ -1,6 +1,6 @@
 html {
   box-sizing: border-box;
-  font-family: helvetica;
+  font-family: 'Manjari', sans-serif;
   font-size: 16px;
   font-weight: 200;
   background: url("./img/background.png");
@@ -11,7 +11,7 @@ html {
   box-sizing: inherit;
 }
 
-#main {
+body {
   max-width: 1090px;
   margin: 0 auto;
 }
@@ -19,12 +19,34 @@ html {
 .search-form {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
   margin: 60px auto;
   font-size: 16px;
 }
 
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 60px;
+}
+
+.logo img {
+  max-width: 300px;
+}
+
+.logo h1 {
+  margin: 0;
+  padding: 0;
+  color: whitesmoke;
+  font-family: 'Schoolbell', cursive;
+
+}
+
 input.search {
-  padding: 5px 15px;
+  padding: 15px 15px;
   width: 100%;
   max-width: 300px;
   margin: 0;
@@ -45,6 +67,7 @@ input.search {
 
 .characters {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -57,6 +80,7 @@ input.search {
   box-shadow: 0 0 10px 4px greenyellow;
   transition: 0.5s;
   position: relative;
+  cursor: pointer;
 }
 
 .image {
@@ -64,7 +88,6 @@ input.search {
 }
 .name {
   display: flex;
-  font-family: 'helvetica';
   height: 60px;
   margin: 0;
   padding: 0;
@@ -85,6 +108,7 @@ input.search {
   letter-spacing: 2px;
   font-size: 16px;
   color: whitesmoke;
+  font-family: 'Schoolbell', cursive;
 }
 
 .Alive {
@@ -110,7 +134,7 @@ input.search {
 }
 
 .character-expanded {
-  /* display: none; */
+  display: none;
   transition: opacity 0.3s ease-out;
   opacity: 0;
 }
@@ -119,34 +143,48 @@ input.search {
   opacity: 1;
   display: block;
   position: fixed;
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   top: 50%;
   left: 50%;
-  margin-top: -40vh;
-  margin-left: -40vw;
+  margin-top: -150px;
+  margin-left: -150px;
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: 0 0 10px 4px greenyellow;
+  cursor: pointer;
+}
+
+.ch-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  color: whitesmoke;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
 }
 
 .character-expanded h3 {
-  height: 20%;
-  margin: 0;
+  margin: 20px auto;
   padding: 0;
   text-align: center;
+  font-family: 'Schoolbell', cursive;
+  font-size: 30px;
   text-transform: uppercase;
   color: whitesmoke;
 }
 
 .character-expanded ul {
   font-size: 16px;
-  margin: auto;
-  color: whitesmoke;
-  background-color: rgba(0, 0, 0, 0.6);
-  width: 100%;
-  height: 80%;
+  margin: 0;
   list-style: none;
 }
 
-
+.info {
+  color: greenyellow;
+}

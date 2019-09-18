@@ -89,16 +89,18 @@ async function getCharacterData() {
     // console.log(episodesString);
        
     const html = `
-      <h3>${data.name}</h3>
-      <ul>
-        <li>Gender: ${data.gender}</li>
-        <li>Specie: ${data.species}</li>
-        <li>Origin: ${data.origin.name}</li>
-        <li>Location: ${data.location.name}</li>
-        <li>Type: ${data.type}</li>
-        <li>Status: ${data.status}</li>
-        <li>Episodes: ${episodes.join(", ").toString()}</li>
-      </ul>
+      <div class="ch-info">
+        <h3>${data.name}</h3>
+        <ul>
+          <li><span class="info">Gender:</span> ${data.gender}</li>
+          <li><span class="info">Specie:</span> ${data.species}</li>
+          <li><span class="info">Origin:</span> ${data.origin.name}</li>
+          <li><span class="info">Location:</span> ${data.location.name}</li>
+          <li><span class="info">Type:</span> ${data.type}</li>
+          <li><span class="info">Status:</span> ${data.status}</li>
+          <li><span class="info">Episodes:</span> ${episodes.join(", ").toString()}</li>
+        </ul>
+      </div>
     `;
     
     const characterExpanded = document.querySelector('.character-expanded');
