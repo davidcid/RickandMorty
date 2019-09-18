@@ -11,42 +11,43 @@ async function getData() {
   try {
     const response = await fetch(`${rickAndMortyApi}?page=1&name=${wordToMatch}&status=${status}`);
     const data = await response.json();
-    const totalPages = data.info.pages;
     let characters = [];
 
-    for(let page = 1; page <= totalPages; page++) {
+    for(let page = 1; page <= data.info.pages; page++) {
       setTimeout(() => {
         fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
         .then(res => res.json())
         .then(data => {
           // characters = characters.concat(data.results);
           characters.push(...data.results);
-          if(page === totalPages) {
+          if(page === data.info.pages) {
             displayMatches(characters);
           }
         })
         .catch(err => {
           result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
         })
-      }, 800)
-      
+      }, 1800)
     }
+    
 
   } catch(error) {
+    console.log(error);
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
   }
 }
 
 function displayMatches(characters = []) {
-    const html = characters.map(character => {
-      return `
-        <li class="card">
-          <img class="image" src=${character.image} alt="image">
-          <h3 class="name">#<span class="id">${character.id}</span> - ${character.name}</h3>
-          <p class="status ${character.status}">${character.status}</p>
-        </li>
-      `;
-    }).join('');
+  console.log(characters);
+  const html = characters.map(character => {
+    return `
+      <li class="card">
+        <img class="image" src=${character.image} alt="image">
+        <h3 class="name">#<span class="id">${character.id}</span> - ${character.name}</h3>
+        <p class="status ${character.status}">${character.status}</p>
+      </li>
+    `;
+  }).join('');
   result.innerHTML = html;
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => card.addEventListener('click', showDetails));
