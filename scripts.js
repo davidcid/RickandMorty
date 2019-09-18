@@ -9,28 +9,29 @@ let id = null;
 
 async function getData() {
   try {
-    let response = await fetch(`${rickAndMortyApi}?page=1&name=${wordToMatch}&status=${status}`);
-    let data = await response.json();
-    let characters = data.results;
+    const response = await fetch(`${rickAndMortyApi}?page=1&name=${wordToMatch}&status=${status}`);
+    const data = await response.json();
     const totalPages = data.info.pages;
-    if(totalPages > 1 && wordToMatch.length >= 3) {
-      for(let page = 2; page <= totalPages; page++) {
+    let characters = [];
+
+    for(let page = 1; page <= totalPages; page++) {
+      setTimeout(() => {
         fetch(`${rickAndMortyApi}?page=${page}&name=${wordToMatch}&status=${status}`)
-          .then(res => res.json())
-          .then(data => {
-            // characters = characters.concat(data.results);
-            characters.push(...data.results);
-            if(page === totalPages) {
-              displayMatches(characters);
-            }
-          })
-          .catch(err => {
-            result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
-          })
-      }
-    } else {
-      displayMatches(characters);
-    } 
+        .then(res => res.json())
+        .then(data => {
+          // characters = characters.concat(data.results);
+          characters.push(...data.results);
+          if(page === totalPages) {
+            displayMatches(characters);
+          }
+        })
+        .catch(err => {
+          result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
+        })
+      }, 800)
+      
+    }
+
   } catch(error) {
     result.innerHTML = `<p class="no-results">No se han encontrado resultados</p>`;
   }
@@ -78,7 +79,14 @@ async function getCharacterData() {
   try {
     const response = await fetch(`${rickAndMortyApi}${id}`);
     const data = await response.json();
-    console.log(data);
+    let episodes = [];
+    data.episode.map(episode => {
+      const number = episode.replace("https://rickandmortyapi.com/api/episode/", "");
+      episodes.push(number);
+    });
+    // const episodesString = episodes.join(", ").toString();
+    // console.log(episodesString);
+       
     const html = `
       <h3>${data.name}</h3>
       <ul>
@@ -88,6 +96,7 @@ async function getCharacterData() {
         <li>Location: ${data.location.name}</li>
         <li>Type: ${data.type}</li>
         <li>Status: ${data.status}</li>
+        <li>Episodes: ${episodes.join(", ").toString()}</li>
       </ul>
     `;
     
